@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 use serde::{Serialize, Serializer};
 use serde::ser::SerializeMap;
-use serde_json::{json, Value};
+use serde_json::Value;
 
 #[derive(Debug, Default, Clone)]
 pub struct Aggregates {
@@ -14,7 +14,7 @@ pub struct Aggregates {
 pub struct AggregateTermsValues {
     field: String,
     #[serde(skip_serializing_if = "Option::is_none")]
-    size: Option<usize>
+    size: Option<usize>,
 }
 
 impl Aggregates {
@@ -62,5 +62,4 @@ fn test() {
         .value(terms);
     let json = serde_json::to_value(aggs).unwrap();
     println!("{}", json.to_string());
-
 }

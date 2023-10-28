@@ -1,12 +1,11 @@
 pub mod query;
-pub mod query_field;
 pub mod misc;
 
 pub mod model {
     use serde::Serialize;
     use crate::query::aggs::Aggregates;
+    use crate::query::query_field::QueryField;
 
-    use crate::query_field::QueryField;
 
     #[derive(Debug, Default, Clone, Serialize)]
     pub struct Query {
