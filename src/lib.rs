@@ -1,10 +1,10 @@
-pub mod query;
+pub mod full_text;
 pub mod misc;
 
 pub mod model {
     use serde::Serialize;
-    use crate::query::aggs::Aggregates;
-    use crate::query::query_field::QueryField;
+    use serde_json::Value;
+    use crate::full_text::query_field::QueryField;
 
 
     #[derive(Debug, Default, Clone, Serialize)]
@@ -18,7 +18,7 @@ pub mod model {
         #[serde(skip_serializing_if = "Option::is_none")]
         query: Option<QueryField>,
         #[serde(skip_serializing_if = "Option::is_none")]
-        aggs: Option<Aggregates>,
+        aggs: Option<Value>,
     }
 
     impl Query {
@@ -61,7 +61,7 @@ pub mod model {
             }
         }
 
-        pub fn aggs<T: Into<Aggregates> + Serialize>(self, aggs: T) -> Self {
+        pub fn aggs<T: Into<Value> + Serialize>(self, aggs: T) -> Self {
             Self {
                 aggs: Some(aggs.into()),
                 ..self

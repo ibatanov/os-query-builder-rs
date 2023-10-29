@@ -4,9 +4,9 @@ mod tests {
 
     use os_query_builder_rs::misc::operator::Operator;
     use os_query_builder_rs::model::Query;
-    use os_query_builder_rs::query::multi_match::MultiMatchQuery;
-    use os_query_builder_rs::query::query_field::QueryField;
-    use os_query_builder_rs::query::r#match::MatchQuery;
+    use os_query_builder_rs::full_text::multi_match::MultiMatchQuery;
+    use os_query_builder_rs::full_text::query_field::QueryField;
+    use os_query_builder_rs::full_text::r#match::MatchQuery;
 
     #[test]
     fn query_test() {
