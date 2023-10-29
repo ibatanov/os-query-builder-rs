@@ -5,6 +5,7 @@
 Библиотека для формирования запросов для Open Search.
 
 ## Установка
+`Cargo.toml`
 ```toml 
 os-query-builder-rs = "0.1.2"
 ```
