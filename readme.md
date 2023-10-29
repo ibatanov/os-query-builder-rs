@@ -6,7 +6,7 @@
 
 ## Установка
 ```toml 
-os-query-builder-rs = { git = "https://github.com/ibatanov/os-query-builder-rs.git", branch = "main" }
+os-query-builder-rs = "0.1.0"
 ```
 
 
