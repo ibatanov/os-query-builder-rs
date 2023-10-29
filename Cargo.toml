@@ -2,6 +2,10 @@
 name = "os-query-builder-rs"
 version = "0.1.0"
 edition = "2021"
+description = "Open Search query builder"
+license = "MIT"
+repository = "https://github.com/ibatanov/os-query-builder-rs/tree/main"
+authors = ["Igor Batanov <irbatanov@ya.ru>"]
 
 [dependencies]
 serde = { version = "1.0.190", features = ["derive"] }

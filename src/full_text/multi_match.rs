@@ -84,7 +84,7 @@ impl MultiMatchQuery {
         self.value(query)
     }
 
-    pub fn typ<T: Into<Type>>(self, typ: T) -> Self {
+    pub fn search_type<T: Into<Type>>(self, typ: T) -> Self {
         Self {
             typ: Some(typ.into()),
             ..self

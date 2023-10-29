@@ -6,6 +6,26 @@ pub mod model {
     use serde_json::Value;
     use crate::full_text::query_field::QueryField;
 
+    /// Examples
+    /// ```
+    /// use os_query_builder_rs::full_text::multi_match::MultiMatchQuery;
+    /// use os_query_builder_rs::full_text::query_field::QueryField;
+    /// use os_query_builder_rs::misc::operator::Operator;
+    /// use os_query_builder_rs::misc::r#type::Type;
+    /// use os_query_builder_rs::model::Query;
+    ///
+    /// let multi_match = MultiMatchQuery::new()
+    ///             .fields(vec!["brands", "articles"])
+    ///             .value("oc47")
+    ///             .operator(Operator::And)
+    ///             .search_type(Type::BestFields)
+    ///             .boost(2)
+    ///             .minimum_should_match(2u64);
+    ///
+    /// let query = Query::new()
+    ///            .source(vec!["test"])
+    ///             .query(QueryField::MultiMatch(multi_match));
+    /// ```
 
     #[derive(Debug, Default, Clone, Serialize)]
     pub struct Query {
