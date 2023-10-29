@@ -1,6 +1,6 @@
 # os-query-builder-rs
 [![Version](https://img.shields.io/crates/v/os-query-builder-rs)](https://crates.io/crates/os-query-builder-rs)
-[![License](https://img.shields.io/crates/l/os-query-builder-rs)](LICENSE)
+[![License](https://img.shields.io/crates/l/os-query-builder-rs)](license)
 
 Библиотека для формирования запросов для Open Search.
 
