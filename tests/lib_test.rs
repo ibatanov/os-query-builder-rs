@@ -2,12 +2,12 @@
 mod tests {
     use serde_json::json;
 
-    use os_query_builder_rs::misc::operator::Operator;
-    use os_query_builder_rs::model::Query;
     use os_query_builder_rs::full_text::multi_match::MultiMatchQuery;
-    use os_query_builder_rs::full_text::query_field::QueryField;
     use os_query_builder_rs::full_text::r#match::MatchQuery;
+    use os_query_builder_rs::misc::operator::Operator;
+    use os_query_builder_rs::misc::query_field::QueryField;
     use os_query_builder_rs::misc::r#type::Type;
+    use os_query_builder_rs::model::Query;
 
     #[test]
     fn query_test() {

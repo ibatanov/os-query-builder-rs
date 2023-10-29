@@ -4,13 +4,15 @@ pub mod misc;
 pub mod model {
     use serde::Serialize;
     use serde_json::Value;
-    use crate::full_text::query_field::QueryField;
+    use crate::misc::query_field::QueryField;
+
 
     /// Examples
     /// ```
     /// use os_query_builder_rs::full_text::multi_match::MultiMatchQuery;
-    /// use os_query_builder_rs::full_text::query_field::QueryField;
+    ///
     /// use os_query_builder_rs::misc::operator::Operator;
+    /// use os_query_builder_rs::misc::query_field::QueryField;
     /// use os_query_builder_rs::misc::r#type::Type;
     /// use os_query_builder_rs::model::Query;
     ///
@@ -26,17 +28,20 @@ pub mod model {
     ///            .source(vec!["test"])
     ///             .query(QueryField::MultiMatch(multi_match));
     /// ```
-
     #[derive(Debug, Default, Clone, Serialize)]
     pub struct Query {
         #[serde(skip_serializing_if = "Option::is_none")]
         from: Option<usize>,
+
         #[serde(skip_serializing_if = "Option::is_none")]
         size: Option<usize>,
+
         #[serde(rename = "_source", skip_serializing_if = "Option::is_none")]
         source: Option<Vec<String>>,
+
         #[serde(skip_serializing_if = "Option::is_none")]
         query: Option<QueryField>,
+
         #[serde(skip_serializing_if = "Option::is_none")]
         aggs: Option<Value>,
     }
