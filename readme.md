@@ -6,7 +6,7 @@
 
 ## Установка
 ```toml 
-os-query-builder-rs = "0.1.0"
+os-query-builder-rs = "0.1.2"
 ```
 
 
