@@ -1,4 +1,6 @@
 use serde::Serialize;
+use crate::full_text::match_phrase::MatchPhrase;
+use crate::full_text::match_phrase_prefix::MatchPhrasePrefix;
 use crate::full_text::multi_match::MultiMatch;
 use crate::full_text::query_string::QueryString;
 use crate::full_text::r#match::Match;
@@ -12,6 +14,8 @@ pub enum QueryField {
     MultiMatch(MultiMatch),
     QueryString(QueryString),
     SimpleQueryString(SimpleQueryString),
+    MatchPhrase(MatchPhrase),
+    MatchPhrasePrefix(MatchPhrasePrefix),
 }
 
 macro_rules! from_types {
@@ -30,5 +34,7 @@ from_types! {
     Match,
     MultiMatch,
     QueryString,
-    SimpleQueryString
+    SimpleQueryString,
+    MatchPhrase,
+    MatchPhrasePrefix
 }
