@@ -10,7 +10,7 @@ use crate::misc::zero_terms_query::ZeroTermsQuery;
 pub struct MultiMatch {
     query: Option<Value>,
 
-    #[serde(rename = "type", skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if = "Option::is_none")]
     fields: Option<Vec<String>>,
 
     #[serde(rename = "type", skip_serializing_if = "Option::is_none")]
@@ -63,8 +63,14 @@ impl MultiMatch {
             F: IntoIterator<Item=T>,
             T: Into<String>,
     {
+
         Self {
-            fields: fields.into_iter().map(|f| Some(f.into())).collect(),
+            fields: Some(
+                fields
+                    .into_iter()
+                    .map(|f| f.into())
+                    .collect()
+            ),
             ..self
         }
     }
