@@ -9,13 +9,13 @@
 
 ### Пример использования
 ```rust
-let multi_match = MultiMatchQuery::new()
+let multi_match = MultiMatch::new()
             .fields(vec!["brands", "articles"])
             .value("oc47")
             .operator(Operator::And)
-            .search_type(Type::BestFields)
+            .query_type(Type::BestFields)
             .boost(2)
-            .minimum_should_match(2u64);
+            .minimum_should_match("90%");
 
 let query = Query::new()
             .source(vec!["test"])
