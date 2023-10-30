@@ -1,11 +1,34 @@
 use serde::Serialize;
+use crate::full_text::multi_match::MultiMatch;
+use crate::full_text::query_string::QueryString;
+use crate::full_text::r#match::Match;
+use crate::full_text::simple_query_string::SimpleQueryString;
 
-use crate::full_text::multi_match::MultiMatchQuery;
-use crate::full_text::r#match::MatchQuery;
 
 #[derive(Debug, Clone, Serialize)]
 #[serde(rename_all = "snake_case")]
 pub enum QueryField {
-    Match(MatchQuery),
-    MultiMatch(MultiMatchQuery),
+    Match(Match),
+    MultiMatch(MultiMatch),
+    QueryString(QueryString),
+    SimpleQueryString(SimpleQueryString),
+}
+
+macro_rules! from_types {
+    ($($ty:ident),*) => {
+        $(
+            impl From<$ty> for QueryField {
+                fn from(val: $ty) -> Self {
+                    Self::$ty(val.into())
+                }
+            }
+        )*
+    }
+}
+
+from_types! {
+    Match,
+    MultiMatch,
+    QueryString,
+    SimpleQueryString
 }

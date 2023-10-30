@@ -9,24 +9,23 @@ pub mod model {
 
     /// Examples
     /// ```
-    /// use os_query_builder_rs::full_text::multi_match::MultiMatchQuery;
-    ///
+    /// use os_query_builder_rs::full_text::multi_match::MultiMatch;
     /// use os_query_builder_rs::misc::operator::Operator;
     /// use os_query_builder_rs::misc::query_field::QueryField;
     /// use os_query_builder_rs::misc::r#type::Type;
     /// use os_query_builder_rs::model::Query;
     ///
-    /// let multi_match = MultiMatchQuery::new()
+    /// let multi_match = MultiMatch::new()
     ///             .fields(vec!["brands", "articles"])
     ///             .value("oc47")
     ///             .operator(Operator::And)
-    ///             .search_type(Type::BestFields)
+    ///             .query_type(Type::BestFields)
     ///             .boost(2)
-    ///             .minimum_should_match(2u64);
+    ///             .minimum_should_match("90%");
     ///
     /// let query = Query::new()
     ///            .source(vec!["test"])
-    ///             .query(QueryField::MultiMatch(multi_match));
+    ///             .query(multi_match);
     /// ```
     #[derive(Debug, Default, Clone, Serialize)]
     pub struct Query {

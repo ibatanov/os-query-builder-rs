@@ -7,18 +7,18 @@ use crate::misc::r#type::Type;
 use crate::misc::zero_terms_query::ZeroTermsQuery;
 
 #[derive(Debug, Default, Clone, Serialize)]
-pub struct MultiMatchQuery {
+pub struct MultiMatch {
     query: Option<Value>,
     fields: Vec<String>,
 
     #[serde(rename = "type", skip_serializing_if = "Option::is_none")]
-    typ: Option<Type>,
+    query_type: Option<Type>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
     operator: Option<Operator>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    minimum_should_match: Option<u64>,
+    minimum_should_match: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
     tie_breaker: Option<f64>,
@@ -51,7 +51,7 @@ pub struct MultiMatchQuery {
     zero_terms_query: Option<ZeroTermsQuery>,
 }
 
-impl MultiMatchQuery {
+impl MultiMatch {
     pub fn new() -> Self {
         Self::default()
     }
@@ -84,9 +84,9 @@ impl MultiMatchQuery {
         self.value(query)
     }
 
-    pub fn search_type<T: Into<Type>>(self, typ: T) -> Self {
+    pub fn query_type<T: Into<Type>>(self, typ: T) -> Self {
         Self {
-            typ: Some(typ.into()),
+            query_type: Some(typ.into()),
             ..self
         }
     }
@@ -98,7 +98,7 @@ impl MultiMatchQuery {
         }
     }
 
-    pub fn minimum_should_match<T: Into<u64>>(self, minimum_should_match: T) -> Self {
+    pub fn minimum_should_match<T: Into<String>>(self, minimum_should_match: T) -> Self {
         Self {
             minimum_should_match: Some(minimum_should_match.into()),
             ..self

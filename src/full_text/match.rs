@@ -7,7 +7,7 @@ use crate::misc::operator::Operator;
 use crate::misc::zero_terms_query::ZeroTermsQuery;
 
 #[derive(Debug, Default, Clone)]
-pub struct MatchQuery {
+pub struct Match {
     field: Option<String>,
     value: MatchValues,
 }
@@ -26,7 +26,7 @@ pub struct MatchValues {
     operator: Option<Operator>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    minimum_should_match: Option<u64>,
+    minimum_should_match: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
     analyzer: Option<String>,
@@ -47,7 +47,7 @@ pub struct MatchValues {
     boost: Option<f64>,
 }
 
-impl Serialize for MatchQuery {
+impl Serialize for Match {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
         where
             S: Serializer,
@@ -58,7 +58,7 @@ impl Serialize for MatchQuery {
     }
 }
 
-impl MatchQuery {
+impl Match {
     pub fn new() -> Self {
         Self::default()
     }
@@ -154,7 +154,7 @@ impl MatchQuery {
         Self { value, ..self }
     }
 
-    pub fn minimum_should_match<T: Into<u64>>(self, minimum_should_match: T) -> Self {
+    pub fn minimum_should_match<T: Into<String>>(self, minimum_should_match: T) -> Self {
         let value = MatchValues {
             minimum_should_match: Some(minimum_should_match.into()),
             ..self.value
