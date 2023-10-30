@@ -50,8 +50,6 @@ let query = Query::new()
 ```
 
 ### Планы развития
-- Match phrase (https://opensearch.org/docs/latest/query-dsl/full-text/index/#match-phrase)
-- Match phrase prefix (https://opensearch.org/docs/latest/query-dsl/full-text/index/#match-phrase-prefix)
 - Compound queries (https://opensearch.org/docs/latest/query-dsl/compound/index/)
 - Term-level queries (https://opensearch.org/docs/latest/query-dsl/term/index/)
 - Aggregations (https://opensearch.org/docs/latest/aggregations/index/)
