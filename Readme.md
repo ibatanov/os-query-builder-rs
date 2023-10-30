@@ -4,10 +4,14 @@
 
 Библиотека для формирования запросов для Open Search.
 
-## Установка
-`os-query-builder-rs = "0.1.4`
+- [Установка](#установка)
+- [Примеры использования](#примеры-использования)
+- [Планы развития](#планы-развития)
 
-### Пример использования
+## Установка
+Добавить в `Cargo.toml` зависимость `os-query-builder-rs = "0.1.4"`
+
+### Примеры использования
 ```rust
 let multi_match = MultiMatch::new()
             .fields(vec!["brands", "articles"])
@@ -44,3 +48,7 @@ let query = Query::new()
   }
 }
 ```
+
+### Планы развития
+- Match phrase (https://opensearch.org/docs/latest/query-dsl/full-text/index/#match-phrase)
+- Boolean queries (https://opensearch.org/docs/latest/query-dsl/compound/bool/)
