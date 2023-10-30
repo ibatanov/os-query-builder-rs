@@ -7,8 +7,6 @@
 ## Установка
 `os-query-builder-rs = "0.1.2`
 
-
-
 ### Пример использования
 ```rust
 let multi_match = MultiMatchQuery::new()
@@ -21,7 +19,7 @@ let multi_match = MultiMatchQuery::new()
 
 let query = Query::new()
             .source(vec!["test"])
-            .query(QueryField::MultiMatch(multi_match));
+            .query(multi_match);
 ```
 
 Сформирует следующий запрос
