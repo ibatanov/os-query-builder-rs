@@ -24,7 +24,7 @@ pub mod model {
     ///             .minimum_should_match("90%");
     ///
     /// let query = Query::new()
-    ///            .source(vec!["test"])
+    ///             .source(vec!["test"])
     ///             .query(multi_match);
     /// ```
     #[derive(Debug, Default, Clone, Serialize)]
@@ -80,7 +80,7 @@ pub mod model {
 
         pub fn size<T: Into<usize> + Serialize>(self, size: T) -> Self {
             Self {
-                from: Some(size.into()),
+                size: Some(size.into()),
                 ..self
             }
         }
