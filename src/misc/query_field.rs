@@ -5,7 +5,7 @@ use crate::full_text::multi_match::MultiMatch;
 use crate::full_text::query_string::QueryString;
 use crate::full_text::r#match::Match;
 use crate::full_text::simple_query_string::SimpleQueryString;
-use crate::full_text::terms::Terms;
+use crate::term::terms::Terms;
 
 
 #[derive(Debug, Clone, Serialize)]

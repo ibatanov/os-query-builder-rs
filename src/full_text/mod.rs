@@ -4,4 +4,3 @@ pub mod query_string;
 pub mod simple_query_string;
 pub mod match_phrase;
 pub mod match_phrase_prefix;
-pub mod terms;
