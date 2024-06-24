@@ -118,5 +118,4 @@ let query = Query::new().query(terms);
 
 ### Планы развития
 - Compound queries (https://opensearch.org/docs/latest/query-dsl/compound/index/)
-- Term-level queries (https://opensearch.org/docs/latest/query-dsl/term/index/)
 - Aggregations (https://opensearch.org/docs/latest/aggregations/index/)

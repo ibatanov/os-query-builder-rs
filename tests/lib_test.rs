@@ -3,11 +3,11 @@ mod tests {
     use serde_json::json;
 
     use os_query_builder_rs::full_text::multi_match::MultiMatch;
-    use os_query_builder_rs::full_text::terms::{Terms, TermsLookup};
     use os_query_builder_rs::full_text::r#match::Match;
     use os_query_builder_rs::misc::operator::Operator;
     use os_query_builder_rs::misc::r#type::Type;
     use os_query_builder_rs::model::Query;
+    use os_query_builder_rs::term::terms::{Terms, TermsLookup};
 
     #[test]
     fn query_test() {
