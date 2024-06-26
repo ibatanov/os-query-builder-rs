@@ -26,10 +26,11 @@ pub struct TermsLookup {
 }
 
 impl Terms {
-    pub fn new_with_terms_query<F,T>(field_name: T, values: F) -> Self
+    pub fn new_with_terms_query<F,T,K>(field_name: K, values: F) -> Self
         where
             F: IntoIterator<Item=T>,
             T: Into<String>,
+            K: Into<String>
     {
         let mut terms = HashMap::with_capacity(1);
         terms.insert(field_name.into(), values.into_iter()

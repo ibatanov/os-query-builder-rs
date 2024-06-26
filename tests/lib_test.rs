@@ -207,6 +207,24 @@ mod tests {
         assert_eq!(json_expected, json_actual);
     }
     #[test]
+    fn term_query_test_with_different_types_str_and_string() {
+        let terms_query = Terms::new_with_terms_query("product_id", vec!["1".to_string(), "2".to_string(), "3".to_string()]);
+        let json_actual = serde_json::to_value(terms_query).unwrap();
+
+        let json_expected = json!({"product_id": ["1", "2", "3"]});
+
+        assert_eq!(json_expected, json_actual);
+    }
+    #[test]
+    fn term_query_test_with_different_types_str_and_chars() {
+        let terms_query = Terms::new_with_terms_query("product_id", vec!['1', '2', '3']);
+        let json_actual = serde_json::to_value(terms_query).unwrap();
+
+        let json_expected = json!({"product_id": ["1", "2", "3"]});
+
+        assert_eq!(json_expected, json_actual);
+    }
+    #[test]
     fn term_query_with_boost_test() {
 
         let boost = 0.9;
