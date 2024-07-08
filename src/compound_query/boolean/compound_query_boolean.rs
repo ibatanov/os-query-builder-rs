@@ -1,32 +1,32 @@
 use serde::Serialize;
+use crate::{term::terms::Terms, term::term::Term};
 use crate::compound_query::boolean::bool::Bool;
-use crate::full_text::match_phrase::MatchPhrase;
-use crate::full_text::match_phrase_prefix::MatchPhrasePrefix;
-use crate::full_text::multi_match::MultiMatch;
-use crate::full_text::query_string::QueryString;
-use crate::full_text::r#match::Match;
-use crate::full_text::simple_query_string::SimpleQueryString;
-use crate::term::{term::Term, terms::Terms};
+use crate::full_text::{
+    r#match::Match,
+    multi_match::MultiMatch,
+    match_phrase::MatchPhrase,
+    match_phrase_prefix::MatchPhrasePrefix,
+    simple_query_string::SimpleQueryString
+};
 
 
 #[derive(Debug, Clone, Serialize)]
 #[serde(rename_all = "snake_case")]
-pub enum QueryField {
+pub enum CompoundQueryBoolean {
     Match(Match),
     MultiMatch(MultiMatch),
-    QueryString(QueryString),
-    SimpleQueryString(SimpleQueryString),
     MatchPhrase(MatchPhrase),
     MatchPhrasePrefix(MatchPhrasePrefix),
-    Terms(Terms),
+    SimpleQueryString(SimpleQueryString),
     Term(Term),
+    Terms(Terms),
     Bool(Bool)
 }
 
 macro_rules! from_types {
     ($($ty:ident),*) => {
         $(
-            impl From<$ty> for QueryField {
+            impl From<$ty> for CompoundQueryBoolean {
                 fn from(val: $ty) -> Self {
                     Self::$ty(val.into())
                 }
@@ -38,11 +38,10 @@ macro_rules! from_types {
 from_types! {
     Match,
     MultiMatch,
-    QueryString,
-    SimpleQueryString,
     MatchPhrase,
     MatchPhrasePrefix,
-    Terms,
+    SimpleQueryString,
     Term,
+    Terms, 
     Bool
 }

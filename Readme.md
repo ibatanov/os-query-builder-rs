@@ -7,15 +7,18 @@
 - [Установка](#установка)
 - [Примеры использования](#примеры-использования)
   - [MultiMatch](#multimatch)
-  - [Terms](#terms)
+  - [Term-level](#term-level)
     - [Terms-query](#terms-query)
     - [Terms-lookup](#terms-lookup) 
+    - [Term](#term)
+  - [Compound-query](#compound-query)
+    - [Boolean](#boolean) 
 - [Планы развития](#планы-развития)
 
 ## Установка
 ```toml
 [dependencies]
-os-query-builder-rs = "0.1.6"
+os-query-builder-rs = "0.1.8"
 ```
 
 ### Примеры использования
@@ -58,7 +61,7 @@ let query = Query::new()
 }
 ```
 
-#### Terms
+#### Term-level
 ##### [Terms query](https://opensearch.org/docs/latest/query-dsl/term/terms/)
 ```rust
  let terms = Terms::new_with_terms_query("product_id", vec!["128660147","127875288",]).boost(0.7);
@@ -116,6 +119,100 @@ let query = Query::new().query(terms);
 }
 ```
 
+##### [Term](https://opensearch.org/docs/latest/query-dsl/term/term/)
+```rust
+let term = Term::new("arcticle", "43935055")
+    .case_insensitive(true)
+    .boost(0.6);
+
+let query = Query::new().query(term);
+```
+
+Сформирует следующий запрос:
+```json
+{
+  "query": {
+    "term": {
+      "arcticle": {
+        "boost":0.6,
+        "case_insensitive":true,
+        "value":"43935055"
+      }
+    }
+  }
+}
+```
+
+#### [Compound-query](https://opensearch.org/docs/latest/query-dsl/compound/index/)
+
+##### [Boolean](https://opensearch.org/docs/latest/query-dsl/compound/bool/)
+
+###### Простой запрос 
+```rust
+    let match_value = Match::new().field("brand").value("FIAT");
+    let boolean = Bool::new().must(vec![CompoundQueryBoolean::Match(match_value)]);
+    let query = Query::new().query(boolean);
+```
+
+Сформирует следующий запрос
+```json
+{
+      "query": {
+        "bool": {
+          "must": [
+            {
+              "match": {
+                "brand": {
+                    "query": "FIAT"
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+```
+
+###### Запрос с вложенным bool-query
+```rust
+    let term = Term::new("name", "Деталь");
+    let must_boolean = Bool::new().must_not(vec![term]);
+
+    let finish_boolean = Bool::new().should(vec![must_boolean]);
+    let query = Query::new().query(finish_boolean);
+```
+
+Сформирует следующий запрос
+```json
+{
+  "query": {
+    "bool": {
+      "should": [
+        {
+          "bool": {
+            "must_not": [
+              {
+                "term": {
+                  "name": {
+                    "value": "Деталь"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+
 ### Планы развития
-- Compound queries (https://opensearch.org/docs/latest/query-dsl/compound/index/)
+- Compound queries
+  - Boosting (https://opensearch.org/docs/latest/query-dsl/compound/boosting/)
+  - Constant score (https://opensearch.org/docs/latest/query-dsl/compound/constant-score/)
+  - Disjunction max (https://opensearch.org/docs/latest/query-dsl/compound/disjunction-max/)
+  - Function score (https://opensearch.org/docs/latest/query-dsl/compound/function-score/)
+  - Hybrid (https://opensearch.org/docs/latest/query-dsl/compound/hybrid/)
 - Aggregations (https://opensearch.org/docs/latest/aggregations/index/)
