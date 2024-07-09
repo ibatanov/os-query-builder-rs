@@ -1,5 +1,5 @@
 use std::collections::HashMap;
-use serde::{Serialize};
+use serde::Serialize;
 
 #[derive(Debug, Default, Clone, Serialize)]
 pub struct Terms {
@@ -69,7 +69,11 @@ impl Terms {
 
 impl TermsLookup {
 
-    pub fn new<T:Into<String>>(index: T, id: T, path: T) -> Self {
+    pub fn new<T,F,X>(index: T, id: F, path: X) -> Self 
+        where T: Into<String>,
+            F: Into<String>,
+            X: Into<String>
+    {
         Self {
             index: index.into(),
             id: id.into(),

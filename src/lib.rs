@@ -1,6 +1,7 @@
 pub mod full_text;
 pub mod misc;
 pub mod term;
+pub mod compound_query;
 
 pub mod model {
     use serde::Serialize;
