@@ -1,6 +1,6 @@
 [package]
 name = "os-query-builder-rs"
-version = "0.1.7"
+version = "0.1.8"
 edition = "2021"
 description = "Open Search query builder"
 license = "MIT"
