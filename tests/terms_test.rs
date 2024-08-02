@@ -341,3 +341,47 @@ fn query_term_with_boost_and_case_insensitive_test() {
     
     assert_eq!(json_expected, json_actual);
 }
+
+
+
+#[test]
+fn term_test_with_value_is_int() {
+    let term = Term::new("brand_id", 1 as i64);
+    let json_actual = json!(term);
+
+    let json_expected = json!({
+        "brand_id": {
+            "value": 1,
+        }
+    });
+    assert_eq!(json_expected, json_actual);
+}
+
+#[test]
+fn term_test_with_value_is_float64() {
+    let term = Term::new("brand_id", 1.3211);
+    let json_actual = json!(term);
+
+    let json_expected = json!({
+        "brand_id": {
+            "value": 1.3211,
+        }
+    });
+    assert_eq!(json_expected, json_actual);
+}
+
+
+#[test]
+fn term_test_with_value_is_float32() {
+
+    let value = 24334.1232131 as f32;
+    let term = Term::new("brand_id", value);
+    let json_actual = json!(term);
+
+    let json_expected = json!({
+        "brand_id": {
+            "value": value,
+        }
+    });
+    assert_eq!(json_expected, json_actual);
+}

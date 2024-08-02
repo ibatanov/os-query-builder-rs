@@ -18,7 +18,7 @@
 ## Установка
 ```toml
 [dependencies]
-os-query-builder-rs = "0.1.8"
+os-query-builder-rs = "0.1.9"
 ```
 
 ### Примеры использования
