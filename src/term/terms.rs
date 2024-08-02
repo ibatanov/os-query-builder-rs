@@ -1,12 +1,13 @@
 use std::collections::HashMap;
 use serde::Serialize;
+use super::term_type::TermType;
 
 #[derive(Debug, Default, Clone, Serialize)]
 pub struct Terms {
 
     #[serde(flatten)]
     #[serde(skip_serializing_if = "Option::is_none")]
-    terms_query: Option<HashMap<String, Vec<String>>>,
+    terms_query: Option<HashMap<String, Vec<TermType>>>,
 
     #[serde(flatten)]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -29,7 +30,7 @@ impl Terms {
     pub fn new_with_terms_query<F,T,K>(field_name: K, values: F) -> Self
         where
             F: IntoIterator<Item=T>,
-            T: Into<String>,
+            T: Into<TermType>,
             K: Into<String>
     {
         let mut terms = HashMap::with_capacity(1);

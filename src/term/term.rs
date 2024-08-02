@@ -1,14 +1,15 @@
 use serde::{Serialize, Serializer, ser::SerializeMap};
+use super::term_type::TermType;
 
-#[derive(Debug, Default, Clone)]
+#[derive(Debug, Clone)]
 pub struct Term {   
     field: String,
     value: TermInner,
 }
 
-#[derive(Debug, Default, Clone, Serialize)]
+#[derive(Debug, Clone, Serialize)]
 struct TermInner {   
-    value: String,
+    value: TermType,
     #[serde(skip_serializing_if = "Option::is_none")]
     boost: Option<f64>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -19,7 +20,7 @@ impl Term {
 
     pub fn new<T,F>(field: T, value: F) -> Self 
         where T: Into<String>,
-            F: Into<String>
+            F: Into<TermType>
     {
         Self {
             field: field.into(),
