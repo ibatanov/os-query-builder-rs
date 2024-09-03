@@ -13,12 +13,15 @@
     - [Term](#term)
   - [Compound-query](#compound-query)
     - [Boolean](#boolean) 
+    - [Boosting](#boosting)
+    - [Boolean](#boolean)
+    - [Boolean](#boolean)
 - [Планы развития](#планы-развития)
 
 ## Установка
 ```toml
 [dependencies]
-os-query-builder-rs = "0.1.9"
+os-query-builder-rs = "0.2.0"
 ```
 
 ### Примеры использования
@@ -207,12 +210,99 @@ let query = Query::new().query(term);
 }
 ```
 
+##### [Boosting](https://opensearch.org/docs/latest/query-dsl/compound/boosting/)
+```rust
+let match_positive = Match::new()
+        .field("product_id")
+        .value("46118216");
+let match_negative = Match::new()
+        .field("name")
+        .value("Деталь");
+let boosting = Boosting::new(match_positive, match_negative).negative_boost(0.1f64);
+
+let query = Query::new().query(boosting);
+```
+
+Сформирует следующий запрос
+
+```json
+{
+  "query": {
+    "boosting": {
+      "positive": {
+        "match": {
+          "product_id": {
+            "query": "46118216"
+          }
+        }
+      },
+      "negative": {
+        "match": {
+          "name": {
+            "query": "Деталь"
+          }
+        }
+      },
+      "negative_boost": 0.1
+    }
+  }
+}
+```
+##### [Constant score](https://opensearch.org/docs/latest/query-dsl/compound/constant-score/)
+```rust
+let match_value = Match::new().field("brand").value("Инструменты СТО");
+let constant_score = ConstantScore::new(match_value);
+let query = Query::new().query(constant_score);
+```
+
+Сформирует следующий запрос
+
+```json
+{
+  "query": {
+    "constant_score": {
+      "filter": {
+        "match": {
+          "brand": {
+            "query":"Инструменты СТО"
+          }
+        }
+      }
+    }
+  }
+}
+```
+##### [Disjunction Max](https://opensearch.org/docs/latest/query-dsl/compound/disjunction-max/)
+```rust
+let match_positive = Match::new()
+    .field("name")
+    .value("Автозапчасть");
+let match_negative = Match::new()
+    .field("product_id")
+    .value("46118319");
+let term = Term::new("catalogue_id", 13558);
+let dis_max = DisMax::new(vec![QueryField::Match(match_positive), QueryField::Match(match_negative), QueryField::Term(term)]);
+let query = Query::new().query(dis_max);
+```
+
+Сформирует следующий запрос
+
+```json
+{
+  "query": {
+    "dis_max": {
+      "queries": [
+        { "match": { "name": { "query": "Автозапчасть" }}},
+        { "match": { "product_id":  { "query": "46118319" }}},
+        { "term": {"catalogue_id": { "value": 13558 }}}
+      ]
+    }
+  }
+}
+```
 
 ### Планы развития
-- Compound queries
-  - Boosting (https://opensearch.org/docs/latest/query-dsl/compound/boosting/)
-  - Constant score (https://opensearch.org/docs/latest/query-dsl/compound/constant-score/)
-  - Disjunction max (https://opensearch.org/docs/latest/query-dsl/compound/disjunction-max/)
+- Compound queries (https://opensearch.org/docs/latest/query-dsl/compound/index/)
   - Function score (https://opensearch.org/docs/latest/query-dsl/compound/function-score/)
   - Hybrid (https://opensearch.org/docs/latest/query-dsl/compound/hybrid/)
 - Aggregations (https://opensearch.org/docs/latest/aggregations/index/)

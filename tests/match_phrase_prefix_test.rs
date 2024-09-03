@@ -47,6 +47,6 @@ fn query_match_phrase_prefix_test() {
         },
         "_source":["brand"]
     });
-    println!("{json}");
+
     assert_eq!(json_str, json);
 }
