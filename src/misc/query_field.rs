@@ -11,7 +11,11 @@ use crate::full_text::multi_match::MultiMatch;
 use crate::full_text::query_string::QueryString;
 use crate::full_text::r#match::Match;
 use crate::full_text::simple_query_string::SimpleQueryString;
-use crate::term::{term::Term, terms::Terms};
+use crate::term::{
+    term::Term,
+    terms::Terms,
+    terms_set::TermsSet
+};
 
 
 #[derive(Debug, Clone, Serialize)]
@@ -34,6 +38,8 @@ pub enum QueryField {
     Terms(Terms),
     /// https://opensearch.org/docs/latest/query-dsl/term/term/
     Term(Term),
+    /// https://opensearch.org/docs/latest/query-dsl/term/terms-set/
+    TermsSet(TermsSet),
     /// https://opensearch.org/docs/latest/query-dsl/compound/bool/
     Bool(Bool),
     /// https://opensearch.org/docs/latest/query-dsl/compound/boosting/
@@ -65,6 +71,7 @@ from_types! {
     MatchPhrasePrefix,
     Terms,
     Term,
+    TermsSet,
     Bool,
     Boosting,
     ConstantScore,
