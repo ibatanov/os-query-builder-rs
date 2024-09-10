@@ -18,3 +18,19 @@ mod compound_query_disjunction_max_test;
 mod compound_query_constant_score;
 #[cfg(test)]
 mod terms_set_test;
+#[cfg(test)]
+mod match_boolean_prefix_test;
+#[cfg(test)]
+mod fuzzy_test;
+#[cfg(test)]
+mod ids_test;
+#[cfg(test)]
+mod regexp_test;
+#[cfg(test)]
+mod rewrite_test;
+#[cfg(test)]
+mod wildcard_test;
+#[cfg(test)]
+mod exists_test;
+#[cfg(test)]
+mod range_test;

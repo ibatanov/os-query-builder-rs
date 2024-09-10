@@ -5,18 +5,27 @@ use crate::compound_query::{
     constant_score::ConstantScore,
     disjunction_max::DisMax
 };
-use crate::full_text::match_phrase::MatchPhrase;
-use crate::full_text::match_phrase_prefix::MatchPhrasePrefix;
-use crate::full_text::multi_match::MultiMatch;
-use crate::full_text::query_string::QueryString;
-use crate::full_text::r#match::Match;
-use crate::full_text::simple_query_string::SimpleQueryString;
+use crate::full_text:: {
+    match_boolean_prefix::MatchBoolPrefix,
+    match_phrase::MatchPhrase,
+    match_phrase_prefix::MatchPhrasePrefix,
+    multi_match::MultiMatch,
+    query_string::QueryString,
+    r#match::Match,
+    simple_query_string::SimpleQueryString
+};
 use crate::term::{
     term::Term,
     terms::Terms,
-    terms_set::TermsSet
+    terms_set::TermsSet,
+    exists::Exists,
+    fuzzy::Fuzzy,
+    ids::IDs,
+    prefix::Prefix,
+    wildcard::Wildcard,
+    regexp::Regexp,
+    range::Range
 };
-
 
 #[derive(Debug, Clone, Serialize)]
 #[serde(rename_all = "snake_case")]
@@ -33,6 +42,8 @@ pub enum QueryField {
     MatchPhrase(MatchPhrase),
     /// https://opensearch.org/docs/latest/query-dsl/full-text/match-phrase-prefix/
     MatchPhrasePrefix(MatchPhrasePrefix),
+    /// https://opensearch.org/docs/latest/query-dsl/full-text/match-bool-prefix/
+    MatchBoolPrefix(MatchBoolPrefix),
     /// https://opensearch.org/docs/latest/query-dsl/term/terms/
     /// https://opensearch.org/docs/latest/query-dsl/term/terms/#terms-lookup
     Terms(Terms),
@@ -47,7 +58,22 @@ pub enum QueryField {
     /// https://opensearch.org/docs/latest/query-dsl/compound/constant-score/
     ConstantScore(ConstantScore),
     /// https://opensearch.org/docs/latest/query-dsl/compound/disjunction-max/
-    DisMax(DisMax)
+    DisMax(DisMax),
+    /// https://opensearch.org/docs/latest/query-dsl/term/wildcard/
+    Wildcard(Wildcard),
+    /// https://opensearch.org/docs/latest/query-dsl/term/ids/
+    #[serde(rename="ids")]
+    IDs(IDs),
+    /// https://opensearch.org/docs/latest/query-dsl/term/ids/
+    Fuzzy(Fuzzy),
+    /// https://opensearch.org/docs/latest/query-dsl/term/prefix/
+    Prefix(Prefix),
+    /// https://opensearch.org/docs/latest/query-dsl/term/regexp/
+    Regexp(Regexp),
+    ///https://opensearch.org/docs/latest/query-dsl/term/exists/
+    Exists(Exists),
+    /// https://opensearch.org/docs/latest/query-dsl/term/range/
+    Range(Range),
 }
 
 macro_rules! from_types {
@@ -69,11 +95,19 @@ from_types! {
     SimpleQueryString,
     MatchPhrase,
     MatchPhrasePrefix,
+    MatchBoolPrefix,
     Terms,
     Term,
     TermsSet,
     Bool,
     Boosting,
     ConstantScore,
-    DisMax
+    DisMax,
+    Wildcard,
+    IDs,
+    Fuzzy,
+    Prefix,
+    Regexp,
+    Exists,
+    Range
 }

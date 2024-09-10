@@ -2,10 +2,10 @@
 [![Version](https://img.shields.io/crates/v/os-query-builder-rs)](https://crates.io/crates/os-query-builder-rs)
 [![License](https://img.shields.io/crates/l/os-query-builder-rs)](License)
 
-Библиотека для формирования запросов для Open Search.
+Library for generating queries for Open Search.
 
-- [Установка](#установка)
-- [Примеры использования](#примеры-использования)
+- [Installation](#installation)
+- [Usage examples](#usage-examples)
   - [MultiMatch](#multimatch)
   - [Term-level](#term-level)
     - [Terms-query](#terms-query)
@@ -14,17 +14,17 @@
   - [Compound-query](#compound-query)
     - [Boolean](#boolean) 
     - [Boosting](#boosting)
-    - [Boolean](#boolean)
-    - [Boolean](#boolean)
-- [Планы развития](#планы-развития)
+    - [ConstantScore](#constant-score)
+    - [DisjunctionMax](#disjunction-max)
+- [Development plans](#development-plans)
 
-## Установка
+## Installation
 ```toml
 [dependencies]
-os-query-builder-rs = "0.2.0"
+open-search-query-builder-rs = "0.0.1"
 ```
 
-### Примеры использования
+### Usage examples
 
 #### MultiMatch
 ```rust
@@ -41,7 +41,7 @@ let query = Query::new()
             .query(multi_match);
 ```
 
-Сформирует следующий запрос
+Generates the following request:
 
 ```json
 {
@@ -73,7 +73,7 @@ let query = Query::new().query(terms)
     .source(vec!["product_id", "brand", "article", "name",]);
 ```
 
-Сформирует следующий запрос:
+Generates the following request:
 ```json
 {
   "_source": [
@@ -105,7 +105,7 @@ let terms = Terms::new_with_terms_lookup("brand_id", terms_lookup)
 let query = Query::new().query(terms);
 ```
 
-Сформирует следующий запрос:
+Generates the following request:
 ```json
 {
   "query": {
@@ -131,7 +131,7 @@ let term = Term::new("arcticle", "43935055")
 let query = Query::new().query(term);
 ```
 
-Сформирует следующий запрос:
+Generates the following request:
 ```json
 {
   "query": {
@@ -150,14 +150,14 @@ let query = Query::new().query(term);
 
 ##### [Boolean](https://opensearch.org/docs/latest/query-dsl/compound/bool/)
 
-###### Простой запрос 
+###### Simple query 
 ```rust
     let match_value = Match::new().field("brand").value("FIAT");
     let boolean = Bool::new().must(vec![CompoundQueryBoolean::Match(match_value)]);
     let query = Query::new().query(boolean);
 ```
 
-Сформирует следующий запрос
+Generates the following request
 ```json
 {
       "query": {
@@ -176,7 +176,7 @@ let query = Query::new().query(term);
     }
 ```
 
-###### Запрос с вложенным bool-query
+###### Query with nested bool-query
 ```rust
     let term = Term::new("name", "Деталь");
     let must_boolean = Bool::new().must_not(vec![term]);
@@ -185,7 +185,7 @@ let query = Query::new().query(term);
     let query = Query::new().query(finish_boolean);
 ```
 
-Сформирует следующий запрос
+Generates the following request
 ```json
 {
   "query": {
@@ -223,7 +223,7 @@ let boosting = Boosting::new(match_positive, match_negative).negative_boost(0.1f
 let query = Query::new().query(boosting);
 ```
 
-Сформирует следующий запрос
+Generates the following request
 
 ```json
 {
@@ -248,6 +248,7 @@ let query = Query::new().query(boosting);
   }
 }
 ```
+
 ##### [Constant score](https://opensearch.org/docs/latest/query-dsl/compound/constant-score/)
 ```rust
 let match_value = Match::new().field("brand").value("Инструменты СТО");
@@ -255,7 +256,7 @@ let constant_score = ConstantScore::new(match_value);
 let query = Query::new().query(constant_score);
 ```
 
-Сформирует следующий запрос
+Generates the following request
 
 ```json
 {
@@ -272,6 +273,7 @@ let query = Query::new().query(constant_score);
   }
 }
 ```
+
 ##### [Disjunction Max](https://opensearch.org/docs/latest/query-dsl/compound/disjunction-max/)
 ```rust
 let match_positive = Match::new()
@@ -285,7 +287,7 @@ let dis_max = DisMax::new(vec![QueryField::Match(match_positive), QueryField::Ma
 let query = Query::new().query(dis_max);
 ```
 
-Сформирует следующий запрос
+Generates the following request
 
 ```json
 {
@@ -301,7 +303,9 @@ let query = Query::new().query(dis_max);
 }
 ```
 
-### Планы развития
+### Development plans
+- Full-text queries (https://opensearch.org/docs/latest/query-dsl/full-text/index/)
+  - Intervals(https://opensearch.org/docs/latest/query-dsl/full-text/intervals/)
 - Compound queries (https://opensearch.org/docs/latest/query-dsl/compound/index/)
   - Function score (https://opensearch.org/docs/latest/query-dsl/compound/function-score/)
   - Hybrid (https://opensearch.org/docs/latest/query-dsl/compound/hybrid/)
