@@ -6,4 +6,5 @@ pub mod query_field;
 pub mod rewrite;
 pub mod regexp_flag;
 pub mod relation;
+pub mod script;
 

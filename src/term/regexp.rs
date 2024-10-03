@@ -22,7 +22,7 @@ struct RegexpValue {
     #[serde(skip_serializing_if = "Option::is_none")]
     case_insensitive: Option<bool>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    flags: Option<RegexpFlag>, // todo что это?
+    flags: Option<RegexpFlag>,
     #[serde(skip_serializing_if = "Option::is_none")]
     max_determinized_states: Option<u64>,
     #[serde(skip_serializing_if = "Option::is_none")]

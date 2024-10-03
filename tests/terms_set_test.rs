@@ -1,4 +1,5 @@
 use serde_json::json;
+use os_query_builder_rs::misc::script::Script;
 use os_query_builder_rs::model::Query;
 use os_query_builder_rs::term::terms_set::TermsSet;
 
@@ -53,10 +54,11 @@ fn first_example_from_docs_test_with_boost() {
 
 #[test]
 fn script_example_from_docs_test_with_boost() {
+    let script = Script::new().source("Math.min(params.num_terms, doc['min_required'].value)");
     let terms_set = TermsSet::new()
         .field("classes")
         .terms(vec!["CS101", "CS102", "MATH101"])
-        .minimum_should_match_script("Math.min(params.num_terms, doc['min_required'].value)")
+        .minimum_should_match_script(script)
         .boost(0.5f64);
     let query = Query::new().query(terms_set);
 
@@ -81,11 +83,12 @@ fn script_example_from_docs_test_with_boost() {
 
 #[test]
 fn script_script_overwrite_field() {
+    let script = Script::new().source("Math.min(params.num_terms, doc['min_required'].value)");
     let terms_set = TermsSet::new()
         .field("classes")
         .terms(vec!["CS101", "CS102", "MATH101"])
         .minimum_should_match_field("min_required")
-        .minimum_should_match_script("Math.min(params.num_terms, doc['min_required'].value)")
+        .minimum_should_match_script(script)
         .boost(0.5f64);
     let query = Query::new().query(terms_set);
 
@@ -110,10 +113,11 @@ fn script_script_overwrite_field() {
 
 #[test]
 fn script_field_overwrite_script() {
+    let script = Script::new().source("Math.min(params.num_terms, doc['min_required'].value)");
     let terms_set = TermsSet::new()
         .field("classes")
         .terms(vec!["CS101", "CS102", "MATH101"])
-        .minimum_should_match_script("Math.min(params.num_terms, doc['min_required'].value)")
+        .minimum_should_match_script(script)
         .minimum_should_match_field("min_required")
         .boost(0.5f64);
     let query = Query::new().query(terms_set);

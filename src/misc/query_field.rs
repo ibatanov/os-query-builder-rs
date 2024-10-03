@@ -5,26 +5,27 @@ use crate::compound_query::{
     constant_score::ConstantScore,
     disjunction_max::DisMax
 };
-use crate::full_text:: {
+use crate::full_text::{
     match_boolean_prefix::MatchBoolPrefix,
     match_phrase::MatchPhrase,
     match_phrase_prefix::MatchPhrasePrefix,
     multi_match::MultiMatch,
     query_string::QueryString,
     r#match::Match,
-    simple_query_string::SimpleQueryString
+    simple_query_string::SimpleQueryString,
+    intervals::interval::Intervals
 };
 use crate::term::{
-    term::Term,
-    terms::Terms,
-    terms_set::TermsSet,
     exists::Exists,
     fuzzy::Fuzzy,
     ids::IDs,
     prefix::Prefix,
-    wildcard::Wildcard,
+    range::Range,
     regexp::Regexp,
-    range::Range
+    term::Term,
+    terms::Terms,
+    terms_set::TermsSet,
+    wildcard::Wildcard
 };
 
 #[derive(Debug, Clone, Serialize)]
@@ -44,6 +45,8 @@ pub enum QueryField {
     MatchPhrasePrefix(MatchPhrasePrefix),
     /// https://opensearch.org/docs/latest/query-dsl/full-text/match-bool-prefix/
     MatchBoolPrefix(MatchBoolPrefix),
+    /// https://opensearch.org/docs/latest/query-dsl/full-text/intervals/
+    Intervals(Intervals),
     /// https://opensearch.org/docs/latest/query-dsl/term/terms/
     /// https://opensearch.org/docs/latest/query-dsl/term/terms/#terms-lookup
     Terms(Terms),
@@ -109,5 +112,6 @@ from_types! {
     Prefix,
     Regexp,
     Exists,
-    Range
+    Range,
+    Intervals
 }

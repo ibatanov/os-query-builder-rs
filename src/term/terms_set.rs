@@ -1,5 +1,6 @@
 use serde::{Serialize, Serializer};
 use serde::ser::SerializeMap;
+use crate::misc::script::Script;
 
 #[derive(Debug, Default, Clone)]
 pub struct TermsSet {
@@ -13,15 +14,9 @@ pub struct TermsSetValue {
     #[serde(skip_serializing_if = "Option::is_none")]
     minimum_should_match_field: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    minimum_should_match_script: Option<TermsSetShouldMatchScript>,
+    minimum_should_match_script: Option<Script>,
     #[serde(skip_serializing_if = "Option::is_none")]
     boost: Option<f64>
-}
-
-
-#[derive(Debug, Default, Clone, Serialize)]
-struct TermsSetShouldMatchScript {
-    source: String,
 }
 
 impl TermsSet {
@@ -48,13 +43,10 @@ impl TermsSet {
         }
     }
 
-    pub fn minimum_should_match_script<T:Into<String> + Serialize>(self, minimum_should_match_script: T) -> Self {
+    pub fn minimum_should_match_script<T:Into<Script> + Serialize>(self, minimum_should_match_script: T) -> Self {
         Self {
             value: TermsSetValue {
-                minimum_should_match_script: Some(TermsSetShouldMatchScript {
-                    source: minimum_should_match_script.into(),
-                    ..self.value.minimum_should_match_script.unwrap_or_default()
-                }),
+                minimum_should_match_script: Some(minimum_should_match_script.into()),
                 minimum_should_match_field: None,
                 ..self.value
             },

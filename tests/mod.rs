@@ -34,3 +34,7 @@ mod wildcard_test;
 mod exists_test;
 #[cfg(test)]
 mod range_test;
+#[cfg(test)]
+mod intervals_test;
+#[cfg(test)]
+mod intervals_rule_test;
