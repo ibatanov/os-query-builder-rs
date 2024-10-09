@@ -11,7 +11,7 @@ Library for generating queries for Open Search.
 ## Installation
 ```toml
 [dependencies]
-open-search-query-builder-rs = "0.0.1"
+os-query-builder-rs = "0.2.0"
 ```
 
 ### Usage examples
@@ -30,7 +30,7 @@ You can see usage examples in the tests
   - [Terms set](tests/terms_set_test.rs)
   - [Wildcard](tests/wildcard_test.rs)
 - Full-text queries
-  - [Match](tests/match_test.rs) 
+  - [Match](tests/match_test.rs)
   - [Match Boolean Prefix](tests/match_boolean_prefix_test.rs)
   - [Match phrase](tests/match_phrase_test.rs)
   - [Match phrase prefix](tests/match_phrase_prefix_test.rs)
