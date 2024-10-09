@@ -1,18 +1,18 @@
 use serde_json::json;
-
 use os_query_builder_rs::term::term::Term;
 use os_query_builder_rs::term::terms::{Terms, TermsLookup};
 use os_query_builder_rs::{
-    compound_query::boolean::{bool::Bool, compound_query_boolean::CompoundQueryBoolean},
+    compound_query::bool::Bool,
     model::Query,
+    misc::query_field::QueryField
 };
 use os_query_builder_rs::full_text::{
     r#match::Match,
     match_phrase::MatchPhrase,
     match_phrase_prefix::MatchPhrasePrefix,
-    simple_query_string::SimpleQueryString
+    simple_query_string::SimpleQueryString,
+    multi_match::MultiMatch
 };
-use os_query_builder_rs::full_text::multi_match::MultiMatch;
 use os_query_builder_rs::misc::operator::Operator;
 use os_query_builder_rs::misc::r#type::Type;
 
@@ -20,7 +20,7 @@ use os_query_builder_rs::misc::r#type::Type;
 #[test]
 fn compound_bool_query_with_one_match_must() {
     let match_value = Match::new().field("brand").value("FIAT");
-    let boolean = Bool::new().must(vec![CompoundQueryBoolean::Match(match_value)]);
+    let boolean = Bool::new().must(vec![QueryField::Match(match_value)]);
     let query = Query::new().size(20usize).query(boolean);
 
     let json_actual = json!(query);
@@ -501,9 +501,9 @@ fn compound_bool_query_with_several_terms_query_and_terms_lookup_and_match_in_mu
 
 
     let boolean = Bool::new().must(vec![
-        CompoundQueryBoolean::Terms(terms_query_1),
-        CompoundQueryBoolean::Terms(terms_query_2),
-        CompoundQueryBoolean::Match(match_value),
+        QueryField::Terms(terms_query_1),
+        QueryField::Terms(terms_query_2),
+        QueryField::Match(match_value),
     ]);
     let query = Query::new().size(20usize).query(boolean);
 
@@ -557,9 +557,9 @@ fn compound_bool_query_with_several_terms_query_and_terms_lookup_and_match_in_mu
 
     let boolean = Bool::new()
         .must(vec![
-            CompoundQueryBoolean::Terms(terms_query_1),
-            CompoundQueryBoolean::Terms(terms_query_2),
-            CompoundQueryBoolean::Match(match_value),
+            QueryField::Terms(terms_query_1),
+            QueryField::Terms(terms_query_2),
+            QueryField::Match(match_value),
         ])
         .minimum_should_match(3usize);
     let query = Query::new().size(20usize).query(boolean);
@@ -608,7 +608,7 @@ fn compound_bool_query_with_several_terms_query_and_terms_lookup_and_match_in_mu
 #[test]
 fn compound_bool_query_with_one_match_must_not() {
     let match_value = Match::new().field("brand").value("FIAT");
-    let boolean = Bool::new().must_not(vec![CompoundQueryBoolean::Match(match_value)]);
+    let boolean = Bool::new().must_not(vec![QueryField::Match(match_value)]);
 
     let query = Query::new().size(20usize).query(boolean);
 
@@ -1092,9 +1092,9 @@ fn compound_bool_query_with_several_terms_query_and_terms_lookup_and_match_in_mu
 
 
     let boolean = Bool::new().must_not(vec![
-        CompoundQueryBoolean::Terms(terms_query_1),
-        CompoundQueryBoolean::Terms(terms_query_2),
-        CompoundQueryBoolean::Match(match_value),
+        QueryField::Terms(terms_query_1),
+        QueryField::Terms(terms_query_2),
+        QueryField::Match(match_value),
     ]);
     let query = Query::new().size(20usize).query(boolean);
 
@@ -1148,9 +1148,9 @@ fn compound_bool_query_with_several_terms_query_and_terms_lookup_and_match_in_mu
 
     let boolean = Bool::new()
         .must_not(vec![
-            CompoundQueryBoolean::Terms(terms_query_1),
-            CompoundQueryBoolean::Terms(terms_query_2),
-            CompoundQueryBoolean::Match(match_value),
+            QueryField::Terms(terms_query_1),
+            QueryField::Terms(terms_query_2),
+            QueryField::Match(match_value),
         ])
         .minimum_should_match(2usize);
 
@@ -1200,7 +1200,7 @@ fn compound_bool_query_with_several_terms_query_and_terms_lookup_and_match_in_mu
 #[test]
 fn compound_bool_query_with_one_match_filter() {
     let match_value = Match::new().field("brand").value("FIAT");
-    let boolean = Bool::new().filter(vec![CompoundQueryBoolean::Match(match_value)]);
+    let boolean = Bool::new().filter(vec![QueryField::Match(match_value)]);
     let query = Query::new().size(20usize).query(boolean);
 
     let json_actual = json!(query);
@@ -1684,9 +1684,9 @@ fn compound_bool_query_with_several_terms_query_and_terms_lookup_and_match_in_fi
     let match_value = Match::new().field("brand").value("FIAT");
 
     let boolean = Bool::new().filter(vec![
-        CompoundQueryBoolean::Terms(terms_query_1),
-        CompoundQueryBoolean::Terms(terms_query_2),
-        CompoundQueryBoolean::Match(match_value),
+        QueryField::Terms(terms_query_1),
+        QueryField::Terms(terms_query_2),
+        QueryField::Match(match_value),
     ]);
     let query = Query::new().size(20usize).query(boolean);
 
@@ -1736,9 +1736,9 @@ fn compound_bool_query_with_several_terms_query_and_terms_lookup_and_match_in_fi
 
     let boolean = Bool::new()
         .filter(vec![
-            CompoundQueryBoolean::Terms(terms_query_1),
-            CompoundQueryBoolean::Terms(terms_query_2),
-            CompoundQueryBoolean::Match(match_value),
+            QueryField::Terms(terms_query_1),
+            QueryField::Terms(terms_query_2),
+            QueryField::Match(match_value),
         ])
         .minimum_should_match(2usize);
     let query = Query::new().size(20usize).query(boolean);
@@ -1787,7 +1787,7 @@ fn compound_bool_query_with_several_terms_query_and_terms_lookup_and_match_in_fi
 #[test]
 fn compound_bool_query_with_one_match_should() {
     let match_value = Match::new().field("brand").value("FIAT");
-    let boolean = Bool::new().should(vec![CompoundQueryBoolean::Match(match_value)]);
+    let boolean = Bool::new().should(vec![QueryField::Match(match_value)]);
     let query = Query::new().size(20usize).query(boolean);
 
     let json_actual = json!(query);
@@ -2275,9 +2275,9 @@ fn compound_bool_query_with_several_terms_query_and_terms_lookup_and_match_in_sh
     let match_value = Match::new().field("brand").value("FIAT");
 
     let boolean = Bool::new().should(vec![
-        CompoundQueryBoolean::Terms(terms_query_1),
-        CompoundQueryBoolean::Terms(terms_query_2),
-        CompoundQueryBoolean::Match(match_value),
+        QueryField::Terms(terms_query_1),
+        QueryField::Terms(terms_query_2),
+        QueryField::Match(match_value),
     ]);
     let query = Query::new().size(20usize).query(boolean);
 
@@ -2327,9 +2327,9 @@ fn compound_bool_query_with_several_terms_query_and_terms_lookup_and_match_in_sh
 
     let boolean = Bool::new()
         .should(vec![
-            CompoundQueryBoolean::Terms(terms_query_1),
-            CompoundQueryBoolean::Terms(terms_query_2),
-            CompoundQueryBoolean::Match(match_value),
+            QueryField::Terms(terms_query_1),
+            QueryField::Terms(terms_query_2),
+            QueryField::Match(match_value),
         ])
         .minimum_should_match(2usize);
     let query = Query::new().size(20usize).query(boolean);
@@ -2793,7 +2793,7 @@ fn compound_bool_query_complex_double_must_and_must_not(){
     let match_brand = Match::new().field("brand_id").value("2456");
     let finish_boolean = Bool::new()
         .must_not(vec![terms_query])
-        .must(vec![CompoundQueryBoolean::Term(term_article), CompoundQueryBoolean::Match(match_brand)]);
+        .must(vec![QueryField::Term(term_article), QueryField::Match(match_brand)]);
 
     let query = Query::new().size(20usize).query(finish_boolean);
     
@@ -2865,8 +2865,8 @@ fn using_all_conditions_test() {
 
     let nested_boolean = Bool::new()
         .should(vec![
-            CompoundQueryBoolean::MatchPhrasePrefix(match_phrase_prefix),
-            CompoundQueryBoolean::MultiMatch(multi_match)
+            QueryField::MatchPhrasePrefix(match_phrase_prefix),
+            QueryField::MultiMatch(multi_match)
         ])
         .minimum_should_match(1usize)
         .filter(vec![match_phrase_1, match_phrase_2])
@@ -2875,9 +2875,9 @@ fn using_all_conditions_test() {
 
     let finish_boolean = Bool::new()
         .must_not(vec![terms_query])
-        .must(vec![CompoundQueryBoolean::Term(term_article),
-                   CompoundQueryBoolean::Match(match_brand),
-                   CompoundQueryBoolean::Bool(nested_boolean)
+        .must(vec![QueryField::Term(term_article),
+                   QueryField::Match(match_brand),
+                   QueryField::Bool(nested_boolean)
         ]);
 
     let query = Query::new().size(20usize).query(finish_boolean);
@@ -2982,16 +2982,4 @@ fn using_all_conditions_test() {
     });
 
     assert_eq!(actual_json, excepted_json);
-}
-
-#[test]
-fn asdd() {
-    let term = Term::new("name", "Деталь");
-    let must_boolean = Bool::new().must(vec![term]);
-
-    let finish_boolean = Bool::new().should(vec![must_boolean]);
-    let query = Query::new().query(finish_boolean);
-
-    let result = json!(query);
-    println!("{result}");
 }

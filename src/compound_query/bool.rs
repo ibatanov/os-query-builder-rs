@@ -1,20 +1,20 @@
 use serde::Serialize;
-use crate::compound_query::boolean::compound_query_boolean::CompoundQueryBoolean;
+use crate::misc::query_field::QueryField;
 
 
 #[derive(Debug, Clone, Serialize)]
 pub struct Bool {
     #[serde(skip_serializing_if = "Option::is_none")]
-    must: Option<Vec<CompoundQueryBoolean>>,
+    must: Option<Vec<QueryField>>,
     
     #[serde(skip_serializing_if = "Option::is_none")]
-    must_not: Option<Vec<CompoundQueryBoolean>>,
+    must_not: Option<Vec<QueryField>>,
     
     #[serde(skip_serializing_if = "Option::is_none")]
-    filter: Option<Vec<CompoundQueryBoolean>>,
+    filter: Option<Vec<QueryField>>,
     
     #[serde(skip_serializing_if = "Option::is_none")]
-    should: Option<Vec<CompoundQueryBoolean>>,
+    should: Option<Vec<QueryField>>,
     
     #[serde(skip_serializing_if = "Option::is_none")]
     minimum_should_match: Option<usize>
@@ -34,7 +34,7 @@ impl Bool {
     }
     
     pub fn must<T,F>(self, must_value: F) -> Self
-        where T: Into<CompoundQueryBoolean>,
+        where T: Into<QueryField>,
             F: IntoIterator<Item = T>
     {
         
@@ -45,7 +45,7 @@ impl Bool {
     }
     
     pub fn must_not<T,F>(self, must_value: F) -> Self
-        where T: Into<CompoundQueryBoolean>,
+        where T: Into<QueryField>,
             F: IntoIterator<Item = T>
     {
         
@@ -56,7 +56,7 @@ impl Bool {
     }
     
     pub fn should<T,F>(self, must_value: F) -> Self
-        where T: Into<CompoundQueryBoolean>,
+        where T: Into<QueryField>,
             F: IntoIterator<Item = T>
     {
         
@@ -67,7 +67,7 @@ impl Bool {
     }
     
     pub fn filter<T,F>(self, filter_values: F) -> Self
-        where T: Into<CompoundQueryBoolean>,
+        where T: Into<QueryField>,
             F: IntoIterator<Item = T>
     {
         

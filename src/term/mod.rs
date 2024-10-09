@@ -1,3 +1,11 @@
 pub mod terms;
 pub mod term;
 mod term_type;
+pub mod terms_set;
+pub mod prefix;
+pub mod ids;
+pub mod fuzzy;
+pub mod wildcard;
+pub mod regexp;
+pub mod exists;
+pub mod range;

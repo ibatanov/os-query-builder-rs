@@ -1,26 +1,82 @@
 use serde::Serialize;
-use crate::compound_query::boolean::bool::Bool;
-use crate::full_text::match_phrase::MatchPhrase;
-use crate::full_text::match_phrase_prefix::MatchPhrasePrefix;
-use crate::full_text::multi_match::MultiMatch;
-use crate::full_text::query_string::QueryString;
-use crate::full_text::r#match::Match;
-use crate::full_text::simple_query_string::SimpleQueryString;
-use crate::term::{term::Term, terms::Terms};
-
+use crate::compound_query::{
+    bool::Bool,
+    boosting::Boosting,
+    constant_score::ConstantScore,
+    disjunction_max::DisMax
+};
+use crate::full_text::{
+    match_boolean_prefix::MatchBoolPrefix,
+    match_phrase::MatchPhrase,
+    match_phrase_prefix::MatchPhrasePrefix,
+    multi_match::MultiMatch,
+    query_string::QueryString,
+    r#match::Match,
+    simple_query_string::SimpleQueryString,
+    intervals::interval::Intervals
+};
+use crate::term::{
+    exists::Exists,
+    fuzzy::Fuzzy,
+    ids::IDs,
+    prefix::Prefix,
+    range::Range,
+    regexp::Regexp,
+    term::Term,
+    terms::Terms,
+    terms_set::TermsSet,
+    wildcard::Wildcard
+};
 
 #[derive(Debug, Clone, Serialize)]
 #[serde(rename_all = "snake_case")]
 pub enum QueryField {
+    /// https://opensearch.org/docs/latest/query-dsl/full-text/match/
     Match(Match),
+    /// https://opensearch.org/docs/latest/query-dsl/full-text/multi-match/
     MultiMatch(MultiMatch),
+    /// https://opensearch.org/docs/latest/query-dsl/full-text/query-string/
     QueryString(QueryString),
+    /// https://opensearch.org/docs/latest/query-dsl/full-text/simple-query-string/
     SimpleQueryString(SimpleQueryString),
+    /// https://opensearch.org/docs/latest/query-dsl/full-text/match-phrase/
     MatchPhrase(MatchPhrase),
+    /// https://opensearch.org/docs/latest/query-dsl/full-text/match-phrase-prefix/
     MatchPhrasePrefix(MatchPhrasePrefix),
+    /// https://opensearch.org/docs/latest/query-dsl/full-text/match-bool-prefix/
+    MatchBoolPrefix(MatchBoolPrefix),
+    /// https://opensearch.org/docs/latest/query-dsl/full-text/intervals/
+    Intervals(Intervals),
+    /// https://opensearch.org/docs/latest/query-dsl/term/terms/
+    /// https://opensearch.org/docs/latest/query-dsl/term/terms/#terms-lookup
     Terms(Terms),
+    /// https://opensearch.org/docs/latest/query-dsl/term/term/
     Term(Term),
-    Bool(Bool)
+    /// https://opensearch.org/docs/latest/query-dsl/term/terms-set/
+    TermsSet(TermsSet),
+    /// https://opensearch.org/docs/latest/query-dsl/compound/bool/
+    Bool(Bool),
+    /// https://opensearch.org/docs/latest/query-dsl/compound/boosting/
+    Boosting(Boosting),
+    /// https://opensearch.org/docs/latest/query-dsl/compound/constant-score/
+    ConstantScore(ConstantScore),
+    /// https://opensearch.org/docs/latest/query-dsl/compound/disjunction-max/
+    DisMax(DisMax),
+    /// https://opensearch.org/docs/latest/query-dsl/term/wildcard/
+    Wildcard(Wildcard),
+    /// https://opensearch.org/docs/latest/query-dsl/term/ids/
+    #[serde(rename="ids")]
+    IDs(IDs),
+    /// https://opensearch.org/docs/latest/query-dsl/term/ids/
+    Fuzzy(Fuzzy),
+    /// https://opensearch.org/docs/latest/query-dsl/term/prefix/
+    Prefix(Prefix),
+    /// https://opensearch.org/docs/latest/query-dsl/term/regexp/
+    Regexp(Regexp),
+    ///https://opensearch.org/docs/latest/query-dsl/term/exists/
+    Exists(Exists),
+    /// https://opensearch.org/docs/latest/query-dsl/term/range/
+    Range(Range),
 }
 
 macro_rules! from_types {
@@ -42,7 +98,20 @@ from_types! {
     SimpleQueryString,
     MatchPhrase,
     MatchPhrasePrefix,
+    MatchBoolPrefix,
     Terms,
     Term,
-    Bool
+    TermsSet,
+    Bool,
+    Boosting,
+    ConstantScore,
+    DisMax,
+    Wildcard,
+    IDs,
+    Fuzzy,
+    Prefix,
+    Regexp,
+    Exists,
+    Range,
+    Intervals
 }
