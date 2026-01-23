@@ -1,13 +1,58 @@
+//! OpenSearch Query Builder for Rust
+//!
+//! This library provides a type-safe, builder-pattern API for constructing
+//! OpenSearch queries. It supports various query types including term-level queries,
+//! full-text queries, and compound queries.
+//!
+//! # Features
+//!
+//! - **Type-safe query building**: Compile-time checking of query structure
+//! - **Builder pattern**: Fluent API for constructing complex queries
+//! - **Comprehensive coverage**: Support for most OpenSearch query types
+//! - **Serialization**: Automatic JSON serialization using Serde
+//!
+//! # Quick Start
+//!
+//! ```rust
+//! use os_query_builder_rs::model::Query;
+//! use os_query_builder_rs::term::term::Term;
+//!
+//! // Create a simple term query
+//! let query = Query::new()
+//!     .query(Term::new("field", "value"));
+//!
+//! // Serialize to JSON
+//! let json = serde_json::to_string(&query).unwrap();
+//! ```
+//!
+//! # Query Types
+//!
+//! - **Term-level queries**: `Term`, `Terms`, `Range`, `Exists`, etc.
+//! - **Full-text queries**: `Match`, `MultiMatch`, `QueryString`, etc.
+//! - **Compound queries**: `Bool`, `Boosting`, `ConstantScore`, etc.
+//!
+//! # Examples
+//!
+//! See the individual module documentation and test files for more examples.
+//!
+//! # Crate Organization
+//!
+//! - [`model`] - Core query structure and builder
+//! - [`term`] - Term-level queries
+//! - [`full_text`] - Full-text search queries
+//! - [`compound_query`] - Compound query combinators
+//! - [`misc`] - Supporting types and utilities
+
+pub mod compound_query;
 pub mod full_text;
 pub mod misc;
 pub mod term;
-pub mod compound_query;
 
+/// Core query model and builder types
 pub mod model {
+    use crate::misc::query_field::QueryField;
     use serde::Serialize;
     use serde_json::Value;
-    use crate::misc::query_field::QueryField;
-
 
     /// Examples
     /// ```
@@ -53,15 +98,12 @@ pub mod model {
         }
 
         pub fn source<F, T>(self, source: F) -> Self
-            where
-                F: IntoIterator<Item=T>,
-                T: Into<String>
+        where
+            F: IntoIterator<Item = T>,
+            T: Into<String>,
         {
             Self {
-                source: Some(source
-                    .into_iter()
-                    .map(|x| x.into())
-                    .collect()),
+                source: Some(source.into_iter().map(|x| x.into()).collect()),
                 ..self
             }
         }
